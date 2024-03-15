@@ -4,42 +4,80 @@ let employees = [];
 
 // Collect employee data
 const collectEmployees = function () {
-  // TODO: Get user input to create and return an array of employee objects
-  let firstName = prompt(
-    'Please enter your first name:',
-    '')
-  let lastName = prompt(
-    'Please enter your last name:',
-    '')
-  let salary = prompt(
-    'Please enter your salary',
-    '')
+  let employees = [];
+  
+  //Will run in a while loop until the First and Last name + Salary are gotten at least once
 
-  let employees = {
-    firstName: firstName,
-    lastName: lastName,
-    salary: salary
-  }
+  while(true) {
+      let firstName;
 
-  const nextTag = confirm('Would you like to add another tag?');
-  if (nextTag === true) {
-    const secondTagName = prompt(
-      collectEmployees()
-    )
-  } else {
-    alert("You're done!")
-    return employees;
+      // Using this do loop we can prevent the name being empty
+      do {
+          firstName = prompt('Please enter your First name:', '');
+      } while (!firstName || !isNaN(firstName));
+      
+      console.log("You entered: " + firstName);
+      
+      let lastName;
+
+      // Similarly using this do loop we can prevent the name being empty
+      do {
+          lastName = prompt('Please enter your Last name:', '');
+      } while (!lastName || !isNaN(lastName));
+      
+      console.log("You entered: " + lastName);
+
+      let salary;
+
+      // This loop is slightly different in that it prevents it from being anything other than a number
+      do {
+          salary = prompt('Please enter your salary:', '');
+      } while (isNaN(salary) && salary !== null);
+
+      console.log("You entered: " + salary);
+      
+      // We log the FirstName, LastName and salary into an array of attributes connected to employee
+      // Using toUpperCase() and slice we can make sure the first character of the First and Last name are capitalized
+      let employee = {
+          firstName: firstName.charAt(0).toUpperCase() + firstName.slice(1),
+          lastName: lastName.charAt(0).toUpperCase() + lastName.slice(1),
+          salary: "$" + salary
+      };
+      
+      // Adds the newly created elements into the employee array and towards the function down below
+      employees.push(employee);
+      
+      // Will continuously loop this function until the user cancels out of it
+      const nextTag = confirm('Would you like to add another employee?');
+      if (!nextTag) {
+          break; // Exit the loop if the user doesn't want to add another employee
+      }
   }
-}
+  
+  return employees;
+};
+
 
 // Display the average salary
 const displayAverageSalary = function (employeesArray) {
   // TODO: Calculate and display the average salary
+  let totalEmployeeSalary;
+
+  for (let employee of employeesArray) {
+    totalEmployeeSalary += employee.salary;
+  }
+
 }
 
 // Select a random employee
 const getRandomEmployee = function (employeesArray) {
   // TODO: Select and display a random employee
+
+  // Using Math.floor we can cycle a random number and multiply by the employee array's length
+  // This let's us get a number that we can then use to select a random employee in the next line directly from the array
+  let randomEmp = Math.floor(Math.random() * employeesArray.length)
+  let newRandomEmp = employeesArray[randomEmp];
+  console.log(`Here's a random employee ${newRandomEmp.firstName} ${newRandomEmp.lastName}`)
 }
 
 /*
